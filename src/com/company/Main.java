@@ -1,3 +1,8 @@
+package com.company;
+
+import com.company.GameView.DisasterView;
+import com.company.GameView.GameView;
+import com.company.Sprite.Moses;
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,6 +14,14 @@ public class Main extends JPanel {
     public static final int ROW = HEIGHT / CELL;
     public static final int COLUMN = WIDTH / CELL;
 
+    Moses moses;
+    public static GameView gameView;
+
+    public Main(){
+        moses = new Moses(1,1);
+        gameView = new DisasterView();
+    }
+
 
     @Override
     public Dimension getPreferredSize() {
@@ -17,7 +30,8 @@ public class Main extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-
+        gameView.drawView(g);
+        moses.draw(g);
     }
 
     public static void main(String[] args) {
