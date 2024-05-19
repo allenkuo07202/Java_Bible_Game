@@ -3,10 +3,13 @@ package com.company;
 import com.company.GameView.DisasterView;
 import com.company.GameView.GameView;
 import com.company.Sprite.Moses;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Main extends JPanel {
+public class Main extends JPanel implements KeyListener {
 
     public static final int CELL = 50;
     public static final int WIDTH = 500;
@@ -17,9 +20,10 @@ public class Main extends JPanel {
     Moses moses;
     public static GameView gameView;
 
-    public Main(){
-        moses = new Moses(1,1);
+    public Main() {
+        moses = new Moses(1, 1);
         gameView = new DisasterView();
+        addKeyListener(this);
     }
 
 
@@ -32,6 +36,7 @@ public class Main extends JPanel {
     public void paintComponent(Graphics g) {
         gameView.drawView(g);
         moses.draw(g);
+        requestFocusInWindow();
     }
 
     public static void main(String[] args) {
@@ -44,5 +49,44 @@ public class Main extends JPanel {
 
         window.setVisible(true);
         window.setResizable(false); // 設定為false，使用者就無法調整大小
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        Point mosesPoint = moses.getRelativePosition();
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                if (mosesPoint.y > 1) {
+                    mosesPoint.y -= 1;
+                }
+                break;
+            case KeyEvent.VK_DOWN:
+                if (mosesPoint.y < ROW) {
+                    mosesPoint.y += 1;
+                }
+                break;
+            case KeyEvent.VK_RIGHT:
+                if (mosesPoint.x < COLUMN) {
+                    mosesPoint.x += 1;
+                }
+                break;
+            case KeyEvent.VK_LEFT:
+                if (mosesPoint.x > 1) {
+                    mosesPoint.x -= 1;
+                }
+                break;
+        }
+        moses.setPosition(mosesPoint);
+        repaint();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
