@@ -1,11 +1,17 @@
 package com.company.Sprite;
 
 import com.company.GameView.DisasterView;
+import com.company.GameView.RedSeaGameView;
+import com.company.GameView.TenCommandmentsView;
 import com.company.Main;
 import com.company.Sprite.DisasterViewSprite.Bug;
 import com.company.Sprite.DisasterViewSprite.Frog;
 import com.company.Sprite.DisasterViewSprite.Ice;
 import com.company.Sprite.DisasterViewSprite.Tombstone;
+import com.company.Sprite.RedSeaViewSprite.Anubis;
+import com.company.Sprite.RedSeaViewSprite.Cat;
+import com.company.Sprite.RedSeaViewSprite.Pharaoh;
+import com.company.Sprite.TenCommandmentSprite.TenCommandment;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -42,10 +48,47 @@ public class Moses extends Sprite {
                 }
             }
 
-            for (Tombstone s : tombstones){
-                if(s.getRelativePosition()!=null&&x==s.getRelativePosition().x&&y==s.getRelativePosition().y){
+            for (Tombstone s : tombstones) {
+                if (s.getRelativePosition() != null && x == s.getRelativePosition().x && y == s.getRelativePosition().y) {
                     return "Cannot move";
                 }
+            }
+
+            // change for door
+            Door door = Main.gameView.getDoor();
+            if (x == door.getRelativePosition().x && y == door.getRelativePosition().y) {
+                return "Next level";
+            }
+        } else if (Main.gameView instanceof RedSeaGameView) {
+            // check for cats
+            ArrayList<Cat> cats = ((RedSeaGameView) Main.gameView).getCats();
+            for (Cat c : cats) {
+                if (c.getRelativePosition() != null && x == c.getRelativePosition().x && y == c.getRelativePosition().y) {
+                    return "Cannot move";
+                }
+            }
+            // check for pharaoh and anubis
+            ArrayList<Pharaoh> pharaohs = ((RedSeaGameView) Main.gameView).getPharaohs();
+            ArrayList<Anubis> anubis = ((RedSeaGameView) Main.gameView).getAnubis();
+            for (Pharaoh p : pharaohs) {
+                if (p.getRelativePosition() != null && x == p.getRelativePosition().x && y == p.getRelativePosition().y) {
+                    return "Die";
+                }
+            }
+            for (Anubis a : anubis) {
+                if (a.getRelativePosition() != null && x == a.getRelativePosition().x && y == a.getRelativePosition().y) {
+                    return "Die";
+                }
+            }
+            // change for door
+            Door door = Main.gameView.getDoor();
+            if (x == door.getRelativePosition().x && y == door.getRelativePosition().y) {
+                return "Next level";
+            }
+        } else if (Main.gameView instanceof TenCommandmentsView) {
+            TenCommandment stone = ((TenCommandmentsView) Main.gameView).getStone();
+            if (x == stone.getRelativePosition().x && y == stone.getRelativePosition().y) {
+                return "Game over";
             }
         }
         return "none";
