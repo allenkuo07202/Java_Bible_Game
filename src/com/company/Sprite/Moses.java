@@ -86,9 +86,17 @@ public class Moses extends Sprite {
                 return "Next level";
             }
         } else if (Main.gameView instanceof TenCommandmentsView) {
-            TenCommandment stone = ((TenCommandmentsView) Main.gameView).getStone();
-            if (x == stone.getRelativePosition().x && y == stone.getRelativePosition().y) {
-                return "Game over";
+            ArrayList<TenCommandment> stones = ((TenCommandmentsView) Main.gameView).getStones();
+            for (TenCommandment stone : stones) {
+                if (stone.getRelativePosition() != null && x == stone.getRelativePosition().x && y == stone.getRelativePosition().y) {
+                    stone.setNullPositioin();
+                    ((TenCommandmentsView) Main.gameView).setCount(1);
+                    if (((TenCommandmentsView) Main.gameView).getCount() == 10) {
+                        return "Game over";
+                    } else {
+                        return "none";
+                    }
+                }
             }
         }
         return "none";
